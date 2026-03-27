@@ -25,16 +25,22 @@ def download_dataset(source, target):
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC use catalog dbacademy;
-# MAGIC use schema labuser14322013_1774521349;
-# MAGIC
-# MAGIC create volume if not exists bookstore;
+df= spark.sql("show schemas like 'lab*'").collect()[0].databaseName
+
+# COMMAND ----------
+
+print(df)
+
+# COMMAND ----------
+
+spark.sql(f"USE CATALOG dbacademy")
+spark.sql(f"USE SCHEMA {df}")
+spark.sql(f"CREATE VOLUME IF NOT EXISTS bookstore")
 
 # COMMAND ----------
 
 data_source_uri = "s3://dalhussein-courses/datasets/bookstore/v1/"
-dataset_bookstore = "/Volumes/dbacademy/labuser14322013_1774521349/bookstore"
+dataset_bookstore = "/Volumes/dbacademy/labuser14322013_1774589523/bookstore"
 data_catalog = 'dbacademy'
 spark.conf.set(f"dataset.bookstore", dataset_bookstore)
 spark.conf.set("fs.s3a.endpoint", "s3.eu-west-3.amazonaws.com")
